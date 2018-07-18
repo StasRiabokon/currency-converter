@@ -6,17 +6,14 @@
 package com.spring.converter.service;
 
 import com.spring.converter.model.Currency;
+import java.io.IOException;
 
 /**
  *
  * @author stas
  */
-public interface CurrencyService {
-
-    //Currency convert();
-    
-    Currency saveCurrency(Currency currency);
-    
-    Currency getCurrency(String rate);
+public interface CurrencyService {    
+        
+    Currency getCurrencyFromJson() throws IOException;
 
 }

@@ -5,12 +5,18 @@
  */
 package com.spring.converter.model;
 
-import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
 import lombok.*;
 
 /**
@@ -20,20 +26,18 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-public class Currency implements Serializable {
+@ToString
+public class Currency {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
-    @Column
+    private Boolean success;
+
+    private Long timestamp;
+
     private String base;
-    
-    @Column
-    private String rate;
-    
-    @Column
-    private Double value;
+
+    private String date;
+
+    @ElementCollection
+    Map<String, Double> rates;
 
 }

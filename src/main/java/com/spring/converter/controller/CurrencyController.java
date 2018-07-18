@@ -5,9 +5,19 @@
  */
 package com.spring.converter.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.converter.model.Currency;
+import com.spring.converter.service.CurrencyServiceImpl;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
@@ -15,11 +25,15 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class CurrencyController {
-    
+
+    @Autowired(required = false)
+    private CurrencyServiceImpl service;
+
     @GetMapping("/")
-    public String convert(Model model){
-        
+    public String getData(Model model) throws IOException {
+
+        model.addAttribute("currency", service.getCurrencyFromJson());
         return "index";
     }
-    
+
 }

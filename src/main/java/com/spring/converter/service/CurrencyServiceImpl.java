@@ -5,8 +5,13 @@
  */
 package com.spring.converter.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.converter.model.Currency;
-import com.spring.converter.repository.CurrencyRepository;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +22,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class CurrencyServiceImpl implements CurrencyService {
 
-    @Autowired
-    private CurrencyRepository repository;
-
     @Override
-    public Currency saveCurrency(Currency currency) {
-        return repository.save(currency);
-    }
+    public Currency getCurrencyFromJson() throws IOException {
+        String stringUrl = "http://data.fixer.io/api/latest?access_key=798d762edc7a7069bd113319b988490f&format=1";
 
-    @Override
-    public Currency getCurrency(String rate) {
-        return repository.getCurrencyByRate(rate);
+        ObjectMapper mapper = new ObjectMapper();
+        JSONObject json = new JSONObject(IOUtils.toString(new URL(stringUrl), Charset.forName("UTF-8")));
+
+        Currency currency = mapper.readValue(json.toString(), Currency.class);
+
+        return currency;
     }
 
 }
