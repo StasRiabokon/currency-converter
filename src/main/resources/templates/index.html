@@ -1,42 +1,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Currency</title>
+        <title>Currency</title>  
+        <link rel="stylesheet"  th:href="@{/css/styles.css}">
+        <script th:src="@{/js/script.js}"></script>
     </head>
     <body>
-        <label th:text="${currency.date}"></label>
-        <div class="from">
-            <input type="number" id="base" value="0" min="0" oninput="firstToSecond()"/>
-            <select id="sbase" onchange="firstToSecond()">           
-                <option th:each="key : ${currency.rates.keySet()}"
-                        th:value="${currency.rates.get(key)}"
-                        th:utext="${key}"/>
-            </select>
+        <div class="container">
+            <label class="title">Currency converter</label>
+            <label th:text="${'Updated: ' + currency.date + ' 00:01 am'}"></label>
+            <div class="from">
+                <input type="number" id="base" onfocus="this.value=''" value="0" min="0" oninput="firstToSecond()"/>
+                <select id="sbase" onchange="firstToSecond()">           
+                    <option th:each="key : ${currency.rates.keySet()}"
+                            th:value="${currency.rates.get(key)}"
+                            th:utext="${key}"/>
+                </select>
+            </div>
+            <div class="to">
+                <input type="number" id="rate" onfocus="this.value=''" value="0" min="0" oninput="secondToFirst()"/>
+                <select id="srate" onchange="secondToFirst()">           
+                    <option th:each="key : ${currency.rates.keySet()}"
+                            th:value="${currency.rates.get(key)}"
+                            th:utext="${key}"/>
+                </select>
+            </div>
         </div>
-        <div class="to">
-            <input type="number" id="rate" value="0" min="0" oninput="secondToFirst()"/>
-            <select id="srate" onchange="secondToFirst()">           
-                <option th:each="key : ${currency.rates.keySet()}"
-                        th:value="${currency.rates.get(key)}"
-                        th:utext="${key}"/>
-            </select>
-        </div>
-
-
-        <script>
-            function firstToSecond() {
-                var base = document.getElementById("base");
-                var sbase = document.getElementById("sbase");
-                var srate = document.getElementById("srate");
-                rate.value = Number(Math.round(srate.value / sbase.value * base.value + 'e2') + 'e-2');
-            }
-            function secondToFirst() {
-                var sbase = document.getElementById("sbase");
-                var rate = document.getElementById("rate");
-                var srate = document.getElementById("srate");
-                base.value = Number(Math.round(sbase.value / srate.value * rate.value + 'e2') + 'e-2');
-            }
-        </script>
-
     </body>
 </html>
